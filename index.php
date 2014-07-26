@@ -59,4 +59,6 @@ $app->post('/', function (Silex\Application $app, Symfony\Component\HttpFoundati
     return new Symfony\Component\HttpFoundation\Response(json_encode($toy), 201);
 });
 
-$app->run();
+//$app->run();
+return $app;
+
