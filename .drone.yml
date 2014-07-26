@@ -3,7 +3,7 @@ script:
    - echo "test"
 #  - php composer.phar install
 #  - php bin/phpunit -c app/phpunit.xml
-notify:
+#notify:
 #  hipchat:
 #    room: {{HIPCHAT_ROOM}}
 #    token: {{HIPCHAT_TOKEN}}
