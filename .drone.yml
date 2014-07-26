@@ -1,0 +1,13 @@
+image: php5.4
+script:
+   - echo "test"
+#  - php composer.phar install
+#  - php bin/phpunit -c app/phpunit.xml
+notify:
+#  hipchat:
+#    room: {{HIPCHAT_ROOM}}
+#    token: {{HIPCHAT_TOKEN}}
+#    on_started: true
+#    on_success: true
+#    on_failure: true
+
