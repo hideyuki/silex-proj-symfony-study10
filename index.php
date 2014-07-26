@@ -2,63 +2,42 @@
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$app = new Silex\Application();
-// Please set to false in a production environment
-$app['debug'] = true;
+use Silex\WebTestCase;
 
-$toys = array(
-    '00001'=> array(
+class IndexTest extends WebTestCase
+{
+  public function createApplication()
+  {
+    $app = require __DIR__ . '/app.php';
+
+    //$app['debug'] = true;
+    //$app['exception_handler']->disable();
+
+    return $app;
+  }
+
+  public function testIndex()
+  {
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/');
+
+    # ok?
+    $this->assertTrue($client->getResponse()->isOK());
+
+    # check count
+    $response = $client->getResponse();
+    $data = json_decode($response->getContent(), true);
+
+    $this->assertEquals(2, count($data));
+
+    # check body of toy 00001
+    $toy00001 = array(
         'name' => 'Racing Car',
         'quantity' => '53',
         'description' => '...',
         'image' => 'racing_car.jpg',
-    ),
-    '00002' => array(
-        'name' => 'Raspberry Pi',
-        'quantity' => '13',
-        'description' => '...',
-        'image' => 'raspberry_pi.jpg',
-    ),
-);
-
-$app->get('/', function() use ($toys) {
-
-    return json_encode($toys);
-});
-
-$app->get('/{stockcode}', function (Silex\Application $app, $stockcode) use ($toys) {
-
-    if (!isset($toys[$stockcode])) {
-        $app->abort(404, "Stockcode {$stockcode} does not exist.");
-    }
-    return json_encode($toys[$stockcode]);
-});
-
-$app->post('/', function (Silex\Application $app, Symfony\Component\HttpFoundation\Request $request) {
-
-    $name = $request->get('name');
-    $quantity = $request->get('quantity');
-    $description = $request->get('description');
-    $image = $request->get('image');
-    
-    // Code to add the toy into the toy db
-    // and return a toy id
-    //$toy_id = create_toy($name, $quantity, $description, $image);
-    //$toy = get_toy($toy_id);
-    
-    // For now lets just assume we have saved it
-    $toy = array(
-        '00003' => array(
-            'name' => $name,
-            'quantity' => $quantity,
-            'description' => $description,
-            'image' => $image,
-        )
     );
-    
-    return new Symfony\Component\HttpFoundation\Response(json_encode($toy), 201);
-});
 
-//$app->run();
-return $app;
-
+    $this->assertSame($toy00001, $data['00001']);
+  }
+}
