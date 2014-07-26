@@ -3,5 +3,5 @@
 ローカルサーバで立ち上げる
 
 ```
-$ php -S localhost:8888
+$ php -S localhost:8888 -t web
 ```
