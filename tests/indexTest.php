@@ -29,15 +29,5 @@ class IndexTest extends WebTestCase
     $data = json_decode($response->getContent(), true);
 
     $this->assertEquals(2, count($data));
-
-    # check body of toy 00001
-    $toy00001 = array(
-        'name' => 'Racing Car',
-        'quantity' => '53',
-        'description' => '...',
-        'image' => 'racing_car.jpg',
-    );
-
-    $this->assertSame($toy00001, $data['00001']);
   }
 }
