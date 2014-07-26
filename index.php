@@ -34,4 +34,29 @@ $app->get('/{stockcode}', function (Silex\Application $app, $stockcode) use ($to
     return json_encode($toys[$stockcode]);
 });
 
+$app->post('/', function (Silex\Application $app, Symfony\Component\HttpFoundation\Request $request) {
+
+    $name = $request->get('name');
+    $quantity = $request->get('quantity');
+    $description = $request->get('description');
+    $image = $request->get('image');
+    
+    // Code to add the toy into the toy db
+    // and return a toy id
+    //$toy_id = create_toy($name, $quantity, $description, $image);
+    //$toy = get_toy($toy_id);
+    
+    // For now lets just assume we have saved it
+    $toy = array(
+        '00003' => array(
+            'name' => $name,
+            'quantity' => $quantity,
+            'description' => $description,
+            'image' => $image,
+        )
+    );
+    
+    return new Symfony\Component\HttpFoundation\Response(json_encode($toy), 201);
+});
+
 $app->run();
