@@ -8,12 +8,10 @@ class IndexTest extends WebTestCase
 {
   public function createApplication()
   {
-    $app = new Silex\Application();
+    $app = require __DIR__ . '/app.php';
 
-    require __DIR__ . '/index.php';
-
-    $app['debug'] = true;
-    $app['exception_handler']->disable();
+    //$app['debug'] = true;
+    //$app['exception_handler']->disable();
 
     return $app;
   }
@@ -23,7 +21,23 @@ class IndexTest extends WebTestCase
     $client = $this->createClient();
     $crawler = $client->request('GET', '/');
 
+    # ok?
     $this->assertTrue($client->getResponse()->isOK());
-    //$this->assertCount(1, $crawler->filter('Raspberry'));
+
+    # check count
+    $response = $client->getResponse();
+    $data = json_decode($response->getContent(), true);
+
+    $this->assertEquals(2, count($data));
+
+    # check body of toy 00001
+    $toy00001 = array(
+        'name' => 'Racing Car',
+        'quantity' => '53',
+        'description' => '...',
+        'image' => 'racing_car.jpg',
+    );
+
+    $this->assertSame($toy00001, $data['00001']);
   }
 }
