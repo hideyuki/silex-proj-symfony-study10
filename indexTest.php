@@ -20,6 +20,9 @@ class IndexTest extends WebTestCase
 
   public function test()
   {
-    $client = $this->
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/');
+
+    $this->assertTrue($client->getResponse()->isOK());
   }
 }
